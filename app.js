@@ -5,6 +5,7 @@ const path = require('path'); // use path.join to join several segments into 1 p
 // 3rd party import
 const express = require('express'); // a Node.js framework
 const morgan = require('morgan'); // a middleware function that will produce a log entry
+const compression = require('compression');
 
 // custom import
 const componentRouter = require('./routes/componentRoutes');
@@ -23,10 +24,12 @@ app.use(express.static(path.join(__dirname, 'public'))); // can use static files
 app.use(express.json());
 
 /* ---- Environment status ----- */
-console.log(`We are in: ${process.env.NODE_ENV} environment`);
 if (process.env.NODE_ENV === 'development') {
+  console.log(`We are in: ${process.env.NODE_ENV} environment`);
   app.use(morgan('dev'));
 }
+
+app.use(compression()); // compress all texts sent to clients
 
 /* ------- ROUTES -------- */
 app.use('/ritaComponents', componentRouter); // API routes: displaying json data
