@@ -1,0 +1,39 @@
+extends base  
+
+block styles 
+    link(rel='stylesheet' href='css/landing.css')
+
+block content
+    main.main.backgroundCL
+        .introContainer
+            p introduction... DOLL & MIT
+
+        .introContainer
+            .card-container
+                each component in components
+                    .card
+                        .card__header
+                            .card__picture
+                                .card__picture-overlay &nbsp;
+                                //- Photo by Alex Knight on Unsplash
+                                img.card__picture-img(src='img/robotAlex.jpg', alt=`${component.name}`) 
+
+                            h4.heading-tertirary
+                                span= component.name
+
+                        .card__details
+                            p.card__text= component.longDes
+
+                            .card__data
+                                svg.card__icon
+                                    use(xlink:href='img/icons.svg#icon-map-pin')
+                                span.card__icon_text= `${component.status}`
+
+                            .card__data
+                                svg.card__icon
+                                    use(xlink:href='img/icons.svg#icon-user')
+                                span.card__icon_text= `${component.author}`
+
+                        .card__footer
+                            a.btn.btn--small(href=`/${component.route}`) Details
+
