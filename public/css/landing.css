@@ -1,21 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Bellota+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@400;500&display=swap');
+
 body {
   font-family: 'Lato', sans-serif;
   padding: 0;
 }
 
+header {
+  background-image: url('../img/headerLanding.png');
+  background-size: 100% 100%;
+  padding: 0;
+}
+
 .section1 {
-  background-image: url('../img/section1Landing.jpg');
+  background-image: url('../img/Section1Landing.png');
   background-size: 100% 100%;
   margin: 0;
 }
 
 .section2 {
-  background-image: url('../img/section2Landing.jpg');
+  background-image: url('../img/Section2Landing.jpg');
   background-size: 100% 100%;
   margin: 0;
   padding-bottom: 10rem;
 }
 
+.containerBox {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0rem 5rem;
+}
+
+/* Buttons */
 .btn,
 .btn:link,
 .btn:visited {
@@ -47,14 +63,67 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
 }
 
+/* Section 1 */
 .introContainer {
   max-width: 100%;
-  margin: 0rem auto;
-  color: rgba(0, 0, 0, 0);
+  color: white;
   position: relative;
   height: 50rem;
+  padding: 0rem 5rem;
 }
 
+.dollIntro {
+  margin: 5rem;
+  width: 90%;
+  height: 40rem;
+  background-color: rgba(60, 27, 139, 0.931);
+  border-radius: 3%;
+  color: rgba(210, 195, 246, 0.931);
+}
+
+.mitIntro {
+  margin: 5rem;
+  width: 90%;
+  height: 40rem;
+  background-color: rgba(108, 23, 134, 0.76);
+  border-radius: 3%;
+  color: rgb(224, 184, 238);
+}
+
+.introContainer h2,
+p {
+  text-align: center;
+  justify-content: center;
+}
+
+.introContainer h2 {
+  font-family: 'Jura', sans-serif;
+  font-weight: 500;
+  color: rgb(244, 224, 251);
+  margin: 2rem 1rem;
+}
+
+.dollIntro h2 {
+  padding: 0 5rem;
+}
+
+.introContainer p {
+  padding: 0 2rem;
+  font-family: 'Bellota Text', cursive;
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+.introContainer img {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Section 2 */
 .card-container {
   margin: 0 auto;
   padding-top: 15rem;
@@ -62,12 +131,11 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 5rem;
-  /* background-color: rgba(20, 15, 15, 0.815); */
 }
 
 .card {
   margin-top: 3rem;
-  border: solid 3px rgba(152, 111, 235, 0.776);
+  border: solid 3px rgba(152, 106, 243, 0.776);
   border-radius: 3px;
   overflow: hidden;
   backface-visibility: hidden;

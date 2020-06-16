@@ -6,8 +6,7 @@ html {
   min-width: 716px;
 }
 body {
-  /* background-color: black !important; */
-  background-image: url('../img/backgroundExtra1.jpg');
+  /* background-image: url('../img/backgroundExtra1.jpg'); */
   background-repeat: no-repeat;
   background-size: 100% 120%;
   font-family: 'Lato', sans-serif;
@@ -15,25 +14,25 @@ body {
 }
 
 header {
-  background-image: url('../img/headerF.png');
+  background-image: url('../img/headerSE.png');
   background-size: 100% 100%;
   padding: 0;
 }
 
 .section1 {
-  background-image: url('../img/section1test.jpg');
+  background-image: url('../img/Section1SE.jpg');
   background-size: 100% 100%;
   margin: 0;
 }
 
 .section2 {
-  background-image: url('../img/section2F.jpg');
+  background-image: url('../img/Section2SE.jpg');
   background-size: 100% 100%;
   margin: 0;
 }
 
 .section3 {
-  background-image: url('../img/section3F.png');
+  background-image: url('../img/Section3SE.png');
   background-size: 100% 100%;
   margin: 0;
   padding: 0;
