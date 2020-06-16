@@ -2,7 +2,9 @@
 /****   state estimation   ****/
 /*-------------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Bellota:wght@300;400&display=swap');
-
+html {
+  min-width: 716px;
+}
 body {
   /* background-color: black !important; */
   background-image: url('../img/backgroundExtra1.jpg');
@@ -18,19 +20,19 @@ header {
   padding: 0;
 }
 
-.main1 {
+.section1 {
   background-image: url('../img/section1test.jpg');
-  background-size: 100% 105%;
+  background-size: 100% 100%;
   margin: 0;
 }
 
-.main2 {
+.section2 {
   background-image: url('../img/section2F.jpg');
   background-size: 100% 100%;
   margin: 0;
 }
 
-.main3 {
+.section3 {
   background-image: url('../img/section3F.png');
   background-size: 100% 100%;
   margin: 0;
@@ -99,16 +101,18 @@ header {
 }
 
 /******* Section 1 *********/
+
 /* Text */
 .predictionIntro {
   position: relative;
-  padding-left: 20%;
+  padding-left: 25%;
   padding-right: 3%;
   padding-top: 5%;
   width: 100%;
   font-family: 'Montserrat', sans-serif;
   line-height: 1rem;
 }
+
 .predictionIntro h1 {
   font-size: 3.8rem;
   color: rgb(223, 206, 250);
@@ -127,18 +131,20 @@ header {
 
 /* Button */
 .buttonContainer {
-  padding-left: 18%;
   padding-top: 0.1rem;
+  padding-left: 25%;
   width: 100%;
   font-family: 'Montserrat', sans-serif;
 }
 
 .buttonContainer a {
+  justify-content: center;
   text-decoration: none;
   align-items: center;
 }
 
 .btnAI {
+  width: 70%;
   color: rgb(250, 235, 253);
   border-color: #b061b3;
   box-shadow: 0 0 40px 40px#b966df73 inset, 0 0 0 0 #f0edec;
@@ -164,7 +170,7 @@ header {
 
 /********* Section 2 *********/
 .padding {
-  padding-top: 10rem;
+  padding-top: 14rem;
   padding-bottom: 3rem;
 }
 
@@ -201,7 +207,7 @@ header {
   background: -webkit-linear-gradient(to bottom, #0f111d, #0f0433); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #0d1d26, #0f0433); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow: hidden;
-  overflow-y: scroll !important;
+  overflow-y: auto;
 }
 
 /*  Generating text animation  */
@@ -262,15 +268,16 @@ header {
 .content ul {
   padding: 2% 7%;
 }
+
 .predictionWrapper {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   padding: 0 1rem;
   border: 1px #331e26 solid;
   border-radius: 10px;
-  margin-top: 0.6rem;
+  margin-top: 0.9rem;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
-  letter-spacing: 0.15em; /* Adjust as needed */
+  letter-spacing: 0.3em; /* Adjust as needed */
   animation: typing 1.5s steps(40, end);
 }
 
@@ -303,7 +310,7 @@ header {
   width: 4.5rem;
   height: auto;
   border-radius: 10%;
-  background-color: rgba(177, 75, 109, 0.801);
+  background-color: rgba(177, 75, 92, 0.801);
   margin: 0 1rem;
 }
 /* rgba(83, 56, 182, 0.986); */
@@ -312,7 +319,7 @@ header {
   height: auto;
   border-radius: 10%;
   color: #fff;
-  background-color: #9ab932ad;
+  background-color: #1dac75c7;
   margin: 0 1rem;
 }
 
@@ -354,7 +361,8 @@ header {
 
 .scroll {
   height: 100%;
-  overflow-y: scroll !important;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .efficiencyMiniBox ul {
@@ -478,7 +486,7 @@ header {
 
 /* Background - line raining effect */
 /* Credit: https://codepen.io/Eslam-Yahya/pen/MvKZKj */
-svg {
+/* svg {
   position: absolute;
 }
 
@@ -500,7 +508,7 @@ svg {
   fill-rule: evenodd;
   clip-rule: evenodd;
   fill: #dd58a3;
-}
+} */
 
 /*------------------------------------*/
 /*   @MEDIA - responsive for mobile   */
@@ -773,6 +781,19 @@ svg {
     padding-right: 10%;
   }
 
+  .predictionIntro h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .buttonContainer {
+    padding-left: 23%;
+  }
+
+  .btnAI {
+    width: 60%;
+  }
+
   /* Section 2 */
   .predictionContainer2 {
     height: 40rem;
@@ -817,9 +838,6 @@ svg {
 /* Break point Navbar */
 @media (max-width: 768px) {
   /* Section 1 */
-  .predictionContainer1 {
-    top: -4rem;
-  }
 
   .predictionIntro {
     padding-left: 7%;
@@ -827,7 +845,7 @@ svg {
   }
 
   .predictionIntro h1 {
-    font-size: 2.6rem;
+    font-size: 3rem;
   }
 
   /* Section 2*/

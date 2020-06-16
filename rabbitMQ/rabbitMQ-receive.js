@@ -26,13 +26,18 @@ const closeOnErr = (err, connection) => {
 // Processes the message
 const processMsg = async (msg) => {
   const receivedMsg = await JSON.parse(msg.content.toString());
+  // console.log(receivedMsg);
   if (receivedMsg.predictions) {
-    setTimeout(function () {
-      predictions.push(receivedMsg);
-      emit.emit('newData', receivedMsg);
-    }, 500);
+    if (receivedMsg['app-id'] === 'StateEstimation' && receivedMsg.predictions.state === 'unknown') {
+      setTimeout(function () {
+        emit.emit('newData', receivedMsg);
+      }, 500);
+    } else if (receivedMsg['app-id'] === 'PredictionGenerator')
+      setTimeout(function () {
+        emit.emit('newData', receivedMsg);
+      }, 500);
   } else {
-    data.push(receivedMsg);
+    // Do nothing for now
   }
   if (data.length > 200) {
     const deleteItems = data.length - 200; // limits array to hold only 10 records

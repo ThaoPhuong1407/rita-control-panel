@@ -21,6 +21,7 @@
 #mainNavbar {
   font-weight: 400;
   margin: 0rem 5rem;
+  padding-top: 1.8rem;
 }
 
 /* Links */
@@ -74,6 +75,10 @@
 }
 
 @media (max-width: 1700px) {
+  #mainNavbar {
+    padding-top: 2rem;
+  }
+
   #mainNavbar .nav-link {
     font-size: 1.4rem;
   }
@@ -84,6 +89,10 @@
 }
 
 @media (max-width: 1440px) {
+  #mainNavbar {
+    padding-top: 2.5rem;
+  }
+
   #mainNavbar .nav-link {
     font-size: 1.1rem;
   }
