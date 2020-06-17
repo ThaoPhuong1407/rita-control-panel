@@ -3,8 +3,9 @@
 /*-------------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Bellota:wght@300;400&display=swap');
 html {
-  min-width: 716px;
+  min-width: 650px;
 }
+
 body {
   /* background-image: url('../img/backgroundExtra1.jpg'); */
   background-repeat: no-repeat;

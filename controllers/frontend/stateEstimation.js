@@ -87,8 +87,10 @@ socketFrontEnd.on('newPrediction', function (data) {
     correctPrediction += 1;
     accuracy = correctPrediction / totalRuns;
     percentTrue = accuracy.toFixed(2) * 100;
+    percentFalse = 100 - percentTrue;
     // Update Correct UI
     $(`.true h3`).text(`True: ${percentTrue}%`);
+    $(`.false h3`).text(`False: ${percentFalse}%`);
     $(`.prediction ul li:contains(${data.uid})`).css({ 'background-color': '#1dac75c7', color: '#fff' }); // Section 2
     $('.true ul').prepend(`<li class="miniBoxID"> ${data.uid}`); // Section 3
     // Update Graph
@@ -97,8 +99,10 @@ socketFrontEnd.on('newPrediction', function (data) {
   } else {
     // Calcuation
     accuracy = correctPrediction / totalRuns;
-    percentFalse = 100 - accuracy.toFixed(2) * 100;
+    percentTrue = accuracy.toFixed(2) * 100;
+    percentFalse = 100 - percentTrue;
     // Update Correct UI
+    $(`.true h3`).text(`True: ${percentTrue}%`);
     $(`.false h3`).text(`False: ${percentFalse}%`);
     $(`.prediction ul li:contains(${data.uid})`).css('background-color', 'rgba(177, 75, 92, 0.452)'); // Section 2
     $('.false ul').prepend(`<li class="miniBoxID"> ${data.uid}`); // Section 3
