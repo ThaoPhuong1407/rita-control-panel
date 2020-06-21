@@ -26,27 +26,36 @@ const closeOnErr = (err, connection) => {
 // Processes the message
 const processMsg = async (msg) => {
   const receivedMsg = await JSON.parse(msg.content.toString());
-  // console.log(receivedMsg);
+
+  // Receiving predictions
   if (receivedMsg.predictions) {
-    if (receivedMsg['app-id'] === 'StateEstimation' && receivedMsg.predictions.state === 'unknown') {
+    if (
+      // Receiving predictions from state estimation (only unknown)
+      (receivedMsg['app-id'] === 'StateEstimation' && receivedMsg.predictions.state === 'unknown') ||
+      // Receiving predictions from prediction generator (true and false)
+      receivedMsg['app-id'] === 'PredictionGenerator'
+    ) {
       setTimeout(function () {
-        emit.emit('newData', receivedMsg);
+        emit.emit('newPrediction', receivedMsg);
       }, 500);
-    } else if (receivedMsg['app-id'] === 'PredictionGenerator')
-      setTimeout(function () {
-        emit.emit('newData', receivedMsg);
-      }, 500);
-  } else {
-    // Do nothing for now
+    }
   }
-  if (data.length > 200) {
-    const deleteItems = data.length - 200; // limits array to hold only 10 records
-    data.splice(0, deleteItems);
+  // Receiving cognitive load from state estimation
+  else if (receivedMsg['belief-state-changes']['cognitive-load']) {
+    setTimeout(function () {
+      emit.emit('newCognitiveLoad', receivedMsg);
+    }, 500);
   }
-  if (predictions.length > 200) {
-    const deleteItems = data.length - 200; // limits array to hold only 10 records
-    data.splice(0, deleteItems);
-  }
+
+  // Might be useful in the future
+  // if (data.length > 200) {
+  //   const deleteItems = data.length - 200; // limits array to hold only 10 records
+  //   data.splice(0, deleteItems);
+  // }
+  // if (predictions.length > 200) {
+  //   const deleteItems = data.length - 200; // limits array to hold only 10 records
+  //   data.splice(0, deleteItems);
+  // }
 };
 
 // Opens a topic change and consumes incoming messages

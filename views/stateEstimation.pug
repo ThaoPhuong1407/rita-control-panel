@@ -23,7 +23,7 @@ block content
                         div.buttonContainer
                             a.btnIntro.btnAI(href='#predictionGenerator') Prediction Generator
                             a.btnIntro.btnAI(href='#accuracyLevel') Accuracy Level
-                            a.btnIntro.btnAI(href='#') Emotion Tracker
+                            a.btnIntro.btnAI(href='#cognitiveLoad') Cognitive Load
 
                     //- d-none = don't show; d-lg-block = show if we are in large size
                     div.col-xl-6.col-lg-5.d-none.d-lg-block
@@ -78,7 +78,7 @@ block content
                             <span></span>
                             <span></span>
                             <span></span>
-                            div#graph
+                            div#el-graph
 
                     div.col-3.justify-content-start.d-none.d-xl-flex  
                         div.efficiencyMiniBox.false 
@@ -86,6 +86,29 @@ block content
                             div.scroll
                                 ul
                                     li.miniBoxID 
+
+    div.section4
+        div.containerBox#cognitiveLoad
+            div.predictionContainer4
+                div.row
+                    div.col-12.d-flex.justify-content-center  
+                        div.cognitiveLoad
+                            div#cl-graph
+
+                    //- div.col-6  
+                    //-     div.row
+                    //-         .clIntro
+                    //-             p 
+                    //-                 |The State Estimation component generates the belief state of Rita 
+                    //-                 |and its human partners. Once RITA understands the humans' theory of mind, 
+
+                    //-     div.row
+                    //-         .clIntro1
+                    //-             p 
+                    //-                 |The State Estimation component generates the belief state of Rita 
+                    //-                 |and its human partners. Once RITA understands the humans' theory of mind, 
+                    //-                 |it can then take action to reduce the number of unshared beliefs and to 
+                    //-                 |help the team harmoniously achieve the mission goal.
 
     script
         include ../controllers/frontend/stateEstimation.js

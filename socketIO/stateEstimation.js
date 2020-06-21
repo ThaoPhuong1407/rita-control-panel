@@ -13,8 +13,9 @@ module.exports = function (io) {
 // Updating the front-end whenever we get info from RMQ
 let resultData = '';
 
-RMQ.emit.on('newData', (data) => {
+RMQ.emit.on('newPrediction', (data) => {
   setTimeout(() => {
+    // Handle predictions
     if (data.predictions.action === 'enter-room' || data.predictions.action === 'exit-room') {
       resultData = `The player will ${data.predictions.action.replace('-', ' ')} ${data.predictions.object}`;
     } else {
@@ -25,6 +26,18 @@ RMQ.emit.on('newData', (data) => {
       prediction: resultData, // String
       uid: data.predictions.uid, // String
       state: data.predictions.state, // boolean
+    });
+  }, 500);
+});
+
+RMQ.emit.on('newCognitiveLoad', (data) => {
+  setTimeout(() => {
+    // console.log(data['belief-state-changes'].values);
+    allSocket.emit('newCognitiveLoad', {
+      cognitiveLoad: data['belief-state-changes'].values['total-cognitive-load'],
+      roomsSkipped: data['belief-state-changes'].values['rooms-skipped'],
+      unUrgentPatients: data['belief-state-changes'].values['untriaged-urgent-patients'],
+      unGreenPatients: data['belief-state-changes'].values['untriaged-green-victims'],
     });
   }, 500);
 });
