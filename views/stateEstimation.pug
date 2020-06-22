@@ -7,7 +7,7 @@ block content
     //- main.main
     div.section1
         div.containerBox
-            div.predictionContainer1
+            div.container1
                 div.row
                     div.col-xl-6.col-lg-7
                         div.predictionIntro
@@ -33,7 +33,7 @@ block content
     div.section2
         div.containerBox
             div.padding
-                div.predictionContainer2#predictionGenerator
+                div.container2#predictionGenerator
                     div.predictionBoxBorder
                         div.predictionBox
                             div.content
@@ -63,7 +63,7 @@ block content
 
     div.section3
         div.containerBox#accuracyLevel
-            div.predictionContainer3
+            div.container3
                 div.row
                     div.col-3.justify-content-end.d-none.d-xl-flex
                         div.efficiencyMiniBox.true 
@@ -89,26 +89,56 @@ block content
 
     div.section4
         div.containerBox#cognitiveLoad
-            div.predictionContainer4
+            div.container4
+                //- for small screen (only show images)
+                div.row.d-xl-none.justify-content-center
+                    div.count
+                        //- Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+                        div.imageContainer
+                            .row.d-flex.justify-content-center
+                                img(src="../img/cognitiveLoad.png")
+                                img(src="../img/roomsSkipped.png")
+                                img(src="../img/urgentPatient.png")
+                                img(src="../img/greenPatient.png")
+
+                            .row.imageCount
+                                .col-3
+                                    p#cognitive_load1 0 bit(s)
+                                .col-3
+                                    p#room_skipped1 0 room(s)
+                                .col-3
+                                    p#urgent_patient1 0 patient(s)
+                                .col-3
+                                    p#green_patient1 0 patient(s)  
+
                 div.row
-                    div.col-12.d-flex.justify-content-center  
+                    .col-xl-6.d-flex.justify-content-center
                         div.cognitiveLoad
                             div#cl-graph
 
-                    //- div.col-6  
-                    //-     div.row
-                    //-         .clIntro
-                    //-             p 
-                    //-                 |The State Estimation component generates the belief state of Rita 
-                    //-                 |and its human partners. Once RITA understands the humans' theory of mind, 
+                    div.col-xl-6.d-none.d-xl-block 
+                        div.count
+                            div.graphCount
+                                div#mc-graph
 
-                    //-     div.row
-                    //-         .clIntro1
-                    //-             p 
-                    //-                 |The State Estimation component generates the belief state of Rita 
-                    //-                 |and its human partners. Once RITA understands the humans' theory of mind, 
-                    //-                 |it can then take action to reduce the number of unshared beliefs and to 
-                    //-                 |help the team harmoniously achieve the mission goal.
+                            //- Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+                            div.imageContainer
+                                .row.d-flex.justify-content-center
+                                    img(src="../img/cognitiveLoad.png")
+                                    img(src="../img/roomsSkipped.png")
+                                    img(src="../img/urgentPatient.png")
+                                    img(src="../img/greenPatient.png")
+
+                                .row.imageCount
+                                    .col-3
+                                        p#cognitive_load 0 bit(s)
+                                    .col-3
+                                        p#room_skipped 0 room(s)
+                                    .col-3
+                                        p#urgent_patient 0 patient(s)
+                                    .col-3
+                                        p#green_patient 0 patient(s)   
+
 
     script
         include ../controllers/frontend/stateEstimation.js
