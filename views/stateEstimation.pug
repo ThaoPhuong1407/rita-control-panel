@@ -5,7 +5,7 @@ block styles
 
 block content
     //- main.main
-    div.section1
+    div.section.section1
         div.containerBox
             div.container1
                 div.row
@@ -30,7 +30,7 @@ block content
                         div.ritaAI
                             img(src="../img/RitaAIcut.gif")
 
-    div.section2
+    div.section.section2
         div.containerBox
             div.padding
                 div.container2#predictionGenerator
@@ -61,7 +61,7 @@ block content
                                 div.prediction
                                     ul
 
-    div.section3
+    div.section.section3
         div.containerBox#accuracyLevel
             div.container3
                 div.row
@@ -87,7 +87,7 @@ block content
                                 ul
                                     li.miniBoxID 
 
-    div.section4
+    div.section.section4
         div.containerBox#cognitiveLoad
             div.container4
                 //- for small screen (only show images)
@@ -138,6 +138,46 @@ block content
                                         p#urgent_patient 0 patient(s)
                                     .col-3
                                         p#green_patient 0 patient(s)   
+
+    div.section5
+        div.containerBox#stressLevel
+            div.container5
+                //- for small screen (only show images)
+                //- div.row.d-xl-none.justify-content-center
+                    div.count
+                        //- Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+                        div.imageContainer
+                            .row.d-flex.justify-content-center
+                                img(src="../img/cognitiveLoad.png")
+                                img(src="../img/roomsSkipped.png")
+                                img(src="../img/urgentPatient.png")
+                                img(src="../img/greenPatient.png")
+
+                            .row.imageCount
+                                .col-3
+                                    p#cognitive_load1 0 bit(s)
+                                .col-3
+                                    p#room_skipped1 0 room(s)
+                                .col-3
+                                    p#urgent_patient1 0 patient(s)
+                                .col-3
+                                    p#green_patient1 0 patient(s)  
+                div.row
+                    div.col-xl-4.d-none.d-xl-block
+                        div.imageContainer5
+                            svg#stress-icon-1
+                                use(xlink:href='../img/stress1.svg#icon-user')
+
+                            svg#stress-icon-2 
+                                use(xlink:href='../img/stress2.svg#icon-user')
+
+                            svg#stress-icon-3
+                                use(xlink:href='../img/stress3.svg#icon-user')
+
+                    .col-xl-8.d-flex.justify-content-center
+                        div.stressLevel
+                            div#sl-graph
+
 
 
     script

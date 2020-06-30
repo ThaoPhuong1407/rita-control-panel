@@ -7,7 +7,6 @@ html {
 }
 
 body {
-  /* background-image: url('../img/backgroundExtra1.jpg'); */
   background-repeat: no-repeat;
   background-size: 100% 120%;
   font-family: 'Lato', sans-serif;
@@ -20,23 +19,25 @@ header {
   padding: 0;
 }
 
-.section1 {
-  background-image: url('../img/Section1SE.jpg');
+/***** Sections ******/
+
+.section {
   background-size: 100% 100%;
   margin: 0;
+}
+
+.section1 {
+  background-image: url('../img/Section1SE.jpg');
 }
 
 .section2 {
   background-image: url('../img/Section2SE.jpg');
-  background-size: 100% 100%;
-  margin: 0;
 }
 
 .section3,
-.section4 {
+.section4,
+.section5 {
   background-image: url('../img/Section3SE.png');
-  background-size: 100% 100%;
-  margin: 0;
   padding: 0;
 }
 
@@ -66,39 +67,15 @@ header {
 .container3,
 .container4 {
   margin: 0rem 0rem; /* vertical horizontal */
-  position: relative;
   height: 55rem;
   padding-top: 12rem;
+  position: relative;
 }
 
-/***** Buttons ******/
-.btnIntro {
-  height: 3rem;
-  color: white;
-  box-sizing: border-box;
-  appearance: none;
-  background-color: transparent;
-  border: 1px solid white;
-  border-radius: 0.6em;
-  cursor: pointer;
-  display: flex;
-  align-self: center;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1;
-  margin: 20px;
-  padding: 1.2em 2.8em;
-  text-decoration: none;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-}
-
-.btnIntro:hover,
-.btnIntro:focus {
-  color: #fff;
-  outline: 0;
+.container5 {
+  height: 60rem;
+  padding-top: 19rem;
+  position: relative;
 }
 
 /******* Section 1 *********/
@@ -130,6 +107,35 @@ header {
 }
 
 /* Button */
+.btnIntro {
+  height: 3rem;
+  color: white;
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 0.6em;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 20px;
+  padding: 1.2em 2.8em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.btnIntro:hover,
+.btnIntro:focus {
+  color: #fff;
+  outline: 0;
+}
+
 .buttonContainer {
   padding-top: 0.1rem;
   padding-left: 25%;
@@ -169,6 +175,16 @@ header {
 }
 
 /********* Section 2 *********/
+.predictionBox {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border: 25px black solid;
+  border-top-width: 2.6rem;
+  border-bottom-width: 2.6rem;
+  border-radius: 40px;
+}
+
 .padding {
   padding-top: 14rem;
   padding-bottom: 3rem;
@@ -187,16 +203,6 @@ header {
   border-radius: 40px;
 }
 
-.predictionBox {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  border: 25px black solid;
-  border-top-width: 2.6rem;
-  border-bottom-width: 2.6rem;
-  border-radius: 40px;
-}
-
 .content {
   width: 100%;
   height: 100%;
@@ -208,6 +214,23 @@ header {
   background: linear-gradient(to bottom, #0d1d26, #0f0433); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   overflow: hidden;
   overflow-y: auto;
+}
+
+/* Fade out */
+.fadeOutTest1 {
+  background-color: rgb(29, 94, 83);
+  color: '#fff';
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 4s, opacity 4s linear;
+}
+
+.fadeOutTest2 {
+  background-color: rgb(100, 39, 31);
+  color: '#fff';
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 4s, opacity 4s linear;
 }
 
 /*  Generating text animation  */
@@ -270,7 +293,7 @@ header {
 }
 
 .predictionWrapper {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   padding: 0 1rem;
   border: 1px #331e26 solid;
   border-radius: 10px;
@@ -278,7 +301,8 @@ header {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
   letter-spacing: 0.3em; /* Adjust as needed */
-  animation: typing 1.5s steps(40, end);
+  /* animation: typing 1.5s steps(40, end); */
+  overflow-x: auto;
 }
 
 /* The typing animation */
@@ -593,32 +617,40 @@ header {
   margin: 0;
 }
 
-/* Background - line raining effect */
-/* Credit: https://codepen.io/Eslam-Yahya/pen/MvKZKj */
-/* svg {
-  position: absolute;
+/* Section 5 */
+.stressLevel {
+  width: 80%;
+  margin-top: 2%;
+  margin-left: 2rem;
+  margin-right: 10rem;
+  height: 35rem;
+  padding: 1rem;
+  background: #0c1131e5;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgb(17, 24, 75);
+  border: 2px solid #1b2985;
+  border-radius: 3%;
+  position: relative;
 }
 
-.linesEffect {
-  opacity: 0.05;
+#sl-graph {
+  width: 100%;
+  height: 100%;
 }
 
-.lineEffect {
-  fill-rule: evenodd;
-  clip-rule: evenodd;
-  fill: #ff65bd;
+.imageContainer5 {
+  margin: 2rem;
+  margin-left: 13rem;
 }
 
-.lightsEffect {
-  opacity: 0.6;
+#stress-icon-1,
+#stress-icon-2,
+#stress-icon-3 {
+  margin: 2rem;
+  opacity: 40%;
+  display: flex;
 }
-
-.lightEffect {
-  fill-rule: evenodd;
-  clip-rule: evenodd;
-  fill: #dd58a3;
-} */
-
 /*------------------------------------*/
 /*   @MEDIA - responsive for mobile   */
 /*------------------------------------*/
@@ -638,13 +670,13 @@ header {
   .content ul {
     padding: 2% 7%;
   }
-
-  .predictionWrapper {
-    font-size: 1.2rem;
-  }
 }
 
 @media (max-width: 1850px) {
+  .predictionWrapper {
+    font-size: 1rem;
+  }
+
   /* Section 4 */
   .imageContainer {
     padding: 3rem 5rem !important;
@@ -706,6 +738,10 @@ header {
 }
 
 @media (max-width: 1675px) {
+  .predictionWrapper {
+    font-size: 0.99rem;
+  }
+
   /* Section 4 */
   .imageContainer img {
     margin-top: 2rem;
@@ -732,6 +768,10 @@ header {
   /* Section 2*/
   .predictionBoxBorder {
     width: 75%;
+  }
+
+  .predictionWrapper {
+    font-size: 0.95rem;
   }
 
   /* Section 3 */
@@ -789,6 +829,10 @@ header {
   /* Section 2 */
   .predictionBoxBorder {
     width: 80%;
+  }
+
+  .predictionWrapper {
+    font-size: 0.85rem;
   }
 
   /* Section 3 */
@@ -882,10 +926,6 @@ header {
     width: 4rem;
   }
 
-  .predictionWrapper {
-    font-size: 1.1rem;
-  }
-
   /* Section 3 */
   .gtitle {
     font-size: 1.7rem !important;
@@ -936,10 +976,6 @@ header {
   /* rgba(83, 56, 182, 0.986); */
   .statusBoxTrue {
     width: 5rem;
-  }
-
-  .predictionWrapper {
-    font-size: 1rem;
   }
 
   /* Section 3 */
@@ -1036,6 +1072,10 @@ header {
     width: 95%;
   }
 
+  .predictionWrapper {
+    font-size: 0.75rem;
+  }
+
   .statusBox {
     padding-bottom: 1rem;
   }
@@ -1050,10 +1090,6 @@ header {
   /* rgba(83, 56, 182, 0.986); */
   .statusBoxTrue {
     width: 4rem;
-  }
-
-  .predictionWrapper {
-    font-size: 0.9rem;
   }
 
   /* Section 3 */
@@ -1092,10 +1128,6 @@ header {
 
   .sign {
     font-size: 2.5rem;
-  }
-
-  .predictionWrapper {
-    font-size: 0.8rem;
   }
 
   /* Section 3 */

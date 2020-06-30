@@ -88,9 +88,10 @@ socketFrontEnd.on('newPrediction', function (data) {
     totalRuns += 1;
     predictionID.push(data.uid);
     $('.prediction ul').prepend(`<li class="predictionWrapper"> ${data.uid}: ${data.prediction} </li>`);
+  }
 
-    // 2. If data is already in the array and status = true
-  } else if (data.state) {
+  // 2. Status = true
+  if (data.state === true) {
     // a) Calculation
     correctPrediction += 1;
     accuracy = correctPrediction / totalRuns;
@@ -100,14 +101,14 @@ socketFrontEnd.on('newPrediction', function (data) {
     // Update Correct UI
     $(`.true h3`).text(`True: ${percentTrue}%`);
     $(`.false h3`).text(`False: ${percentFalse}%`);
-    $(`.prediction ul li:contains(${data.uid})`).css({ 'background-color': '#1dac75c7', color: '#fff' }); // Section 2
+    $(`.prediction ul li:contains(${data.uid})`).addClass('fadeOutTest1'); // Section 2
     $('.true ul').prepend(`<li class="miniBoxID"> ${data.uid}`); // Section 3
 
     // Update Graph
     Plotly.extendTraces(elGraph, { y: [[accuracy]] }, [0]);
 
-    // 2. If data is already in the array and status = false
-  } else {
+    // 2. status = false
+  } else if (data.state === false) {
     // Calcuation
     accuracy = correctPrediction / totalRuns;
     percentTrue = accuracy.toFixed(2) * 100;
@@ -116,7 +117,7 @@ socketFrontEnd.on('newPrediction', function (data) {
     // Update Correct UI
     $(`.true h3`).text(`True: ${percentTrue}%`);
     $(`.false h3`).text(`False: ${percentFalse}%`);
-    $(`.prediction ul li:contains(${data.uid})`).css('background-color', 'rgba(177, 75, 92, 0.452)'); // Section 2
+    $(`.prediction ul li:contains(${data.uid})`).addClass('fadeOutTest2'); // Section 2
     $('.false ul').prepend(`<li class="miniBoxID"> ${data.uid}`); // Section 3
 
     // Update Graph
@@ -133,6 +134,7 @@ var mcGraph = document.getElementById('mc-graph');
 // Initialize graph: Cognitive Level Graph (CL)
 var dataCL = [
   {
+    x: [0],
     y: [0],
   },
 ];
@@ -213,7 +215,7 @@ var dataMC = [
 
 var layoutMC = {
   title: {
-    text: 'Memory Piece',
+    text: 'Memory Pieces',
     font: {
       family: 'Bellota, monospace',
       size: 30,
@@ -273,5 +275,95 @@ socketFrontEnd.on('newCognitiveLoad', function (data) {
     $(`#room_skipped1`).text(`${data.roomsSkipped} room(s)`);
     $(`#urgent_patient1`).text(`${data.unUrgentPatients} patient(s)`);
     $(`#green_patient1`).text(`${data.unGreenPatients} patient(s)`);
+  }, 300);
+});
+
+/* -------------------------------------------------------*/
+/* Stress Level GRaph (SL) */
+/* ------------------------------------------------------*/
+var slGraph = document.getElementById('sl-graph');
+
+// Initialize graph: Cognitive Level Graph (CL)
+var dataSL = [
+  {
+    x: [0],
+    y: [0],
+  },
+];
+
+var layoutSL = {
+  hovermode: 'closest',
+  title: {
+    text: 'Cardiac Signal',
+    font: {
+      family: 'Courier New, monospace',
+      size: 30,
+      color: '#ffff',
+    },
+  },
+  xaxis: {
+    linecolor: '#228DFF',
+    color: '#ffe6ffd2',
+    title: {
+      text: 'Minutes',
+      font: {
+        family: 'monospace',
+        size: 18,
+        color: '#f9e3ff',
+      },
+      tickcolor: '#228DFF',
+    },
+    rangemode: 'nonnegative',
+    showspikes: true,
+    showgrid: false,
+  },
+  yaxis: {
+    linecolor: '#228DFF',
+    color: '#ffe6ffd2',
+    title: {
+      text: '',
+      font: {
+        family: 'monospace',
+        size: 18,
+        color: '#f9e3ff',
+      },
+    },
+    showspikes: true,
+    showgrid: false,
+  },
+
+  paper_bgcolor: 'rgb(0,0,0,0)',
+  plot_bgcolor: 'rgb(0,0,0,0)',
+};
+
+var configSL = {
+  scrollZoom: true,
+  responsive: true,
+};
+
+Plotly.newPlot(slGraph, dataSL, layoutSL, configSL);
+
+socketFrontEnd.on('newFNIRS', function (data) {
+  setTimeout(function () {
+    var updatedData = {
+      x: [data.timeInMin],
+      y: [data.cardiacSignal],
+    };
+
+    if (data.stressLevel === 1) {
+      $(`#stress-icon-1`).css('opacity', '0.9');
+      $(`#stress-icon-2`).css('opacity', '0.3');
+      $(`#stress-icon-3`).css('opacity', '0.3');
+    } else if (data.stressLevel === 2) {
+      $(`#stress-icon-1`).css('opacity', '0.3');
+      $(`#stress-icon-2`).css('opacity', '0.9');
+      $(`#stress-icon-3`).css('opacity', '0.3');
+    } else if (data.stressLevel === 3) {
+      $(`#stress-icon-1`).css('opacity', '0.3');
+      $(`#stress-icon-2`).css('opacity', '0.3');
+      $(`#stress-icon-3`).css('opacity', '0.9');
+    }
+
+    Plotly.update(slGraph, updatedData);
   }, 300);
 });

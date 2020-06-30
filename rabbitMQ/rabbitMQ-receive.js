@@ -1,6 +1,8 @@
 /* eslint-disable no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
 
+const fs = require('fs');
+
 /* ----- IMPORT ------ */
 const amqp = require('amqplib/callback_api');
 const Event = require('events');
@@ -30,10 +32,10 @@ const processMsg = async (msg) => {
   // Receiving predictions
   if (receivedMsg.predictions) {
     if (
-      // Receiving predictions from state estimation (only unknown)
-      (receivedMsg['app-id'] === 'StateEstimation' && receivedMsg.predictions.state === 'unknown') ||
-      // Receiving predictions from prediction generator (true and false)
-      receivedMsg['app-id'] === 'PredictionGenerator'
+      // Receiving predictions from state estimation (true and unknown)
+      receivedMsg['app-id'] === 'StateEstimation' ||
+      // Receiving predictions from prediction generator (false)
+      (receivedMsg['app-id'] === 'PredictionGenerator' && !receivedMsg.predictions.state)
     ) {
       setTimeout(function () {
         emit.emit('newPrediction', receivedMsg);
@@ -41,10 +43,23 @@ const processMsg = async (msg) => {
     }
   }
   // Receiving cognitive load from state estimation
-  else if (receivedMsg['belief-state-changes']['cognitive-load']) {
-    setTimeout(function () {
-      emit.emit('newCognitiveLoad', receivedMsg);
-    }, 500);
+  else if (receivedMsg['belief-state-changes']) {
+    if (receivedMsg['belief-state-changes']['cognitive-load']) {
+      setTimeout(function () {
+        emit.emit('newCognitiveLoad', receivedMsg);
+      }, 500);
+    }
+  }
+
+  // Receiving fnirs data
+  else if (receivedMsg['routing-key'] === 'testbed-message') {
+    if (receivedMsg['testbed-message'].msg.sub_type === 'fNIRS') {
+      if (receivedMsg['testbed-message'].data !== undefined) {
+        setTimeout(function () {
+          emit.emit('newFNIRS', receivedMsg['testbed-message'].data);
+        }, 500);
+      }
+    }
   }
 
   // Might be useful in the future

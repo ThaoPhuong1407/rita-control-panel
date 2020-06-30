@@ -15,13 +15,14 @@ const app = require('./app');
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
   console.log(err.name, err.message);
+  console.log(err.stack);
   process.exit(1);
 });
 
 /* ------- Start listening to rabbitMQ -------- */
 const RMQ = require('./rabbitMQ/rabbitMQ-receive');
 const exchangeName = 'rita';
-const routingKeys = ['predictions', 'belief-state-changes']; // belief-state-changes, predictions
+const routingKeys = ['predictions', 'belief-state-changes', 'testbed-message'];
 RMQ.startListening(exchangeName, routingKeys);
 
 /* --- DATABASE CONNECTION CONFIG -- */
@@ -45,11 +46,13 @@ const server = app.listen(port, () => {
 /* Socket IO  Setup*/
 const io = socketBackEnd(server);
 require('./socketIO/stateEstimation')(io);
+// require('./controllers/backend/viewsController').socketIOSE(io);
 
 /*----- Handle unexpected errors -----*/
 process.on('unhandledRejection', (err) => {
   console.log('UNHANDLED REJECTION! 💥 Shutting down...');
   console.log(err.name, err.message);
+  console.log(err.stack);
   server.close(() => {
     process.exit(1);
   });
