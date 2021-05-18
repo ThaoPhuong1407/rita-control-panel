@@ -1,0 +1,62 @@
+extends base
+
+block styles
+    link(rel='stylesheet' href='css/map.css')
+    script(src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js")
+
+block content
+    //- <button class="Btn">CLICK HERE</button>
+    main
+        .background 
+            .containerBox
+                h1 Minecraft 2D Map
+
+            //- .containerBox
+            //-     input.input(type="file" class="jsonFile" name="jsonFile")
+
+            .containerBox
+                .row.infoContrainer
+                    .col-6
+                        h6#trial_name Trial name: 
+                        h6#trial_number Trial number:
+                        h6#trial_condition Trial condition:
+                        h6#trial_date Trial date:  
+
+                    .col-6
+                        h6#subject_id Subject ID:
+                        h6#experiment_name Experiment name:
+                        h6#mission_name Mission name:
+                        h6#testbed_v Testbed version:
+
+            .containerBox
+                .row.infoContrainer.bg 
+                    .col-3
+                        .infoBox 
+                            h6 Mission Timer
+                            div 
+                                p#mission_timer Not started
+
+                    .col-3
+                        .infoBox  
+                            p#yellow Triaged Critical: 0
+                            p#green Triaged Regular: 0
+
+                    .col-3
+                        .infoBox  
+                            h6 Score
+                            div 
+                                p#teamScore 0
+
+                    .col-3
+                        .infoBox  
+                            h6 Pause Status
+                            div 
+                                p#pause Unknown
+
+            .containerBox
+                .minecraftMap#map
+
+
+    script
+        include ../controllers/frontend/2dMap/bundleMap.js
+

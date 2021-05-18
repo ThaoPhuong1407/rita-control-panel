@@ -5,11 +5,11 @@ const amqp = require('amqplib/callback_api');
 
 let amqpConn = null;
 process.env.CLOUDAMQP_URL = 'amqp://localhost';
-const amqpURL = 'amqp://obablkhe:vN3l2Lpj5sfUcstYJp1oQsHnR-I_0bHZ@toad.rmq.cloudamqp.com/obablkhe';
+// const amqpURL = 'amqp://obablkhe:vN3l2Lpj5sfUcstYJp1oQsHnR-I_0bHZ@toad.rmq.cloudamqp.com/obablkhe';
 
 // The start function will establish a connection to RabbitMQ
 function start() {
-  amqp.connect(`${amqpURL}?heartbeat=60`, function (err, connection) {
+  amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, function (err, connection) {
     // handle amqp connection error
     if (err) {
       console.error('[AMQP]', err.message);

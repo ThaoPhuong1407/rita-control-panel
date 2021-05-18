@@ -22,8 +22,10 @@ process.on('uncaughtException', (err) => {
 /* ------- Start listening to rabbitMQ -------- */
 const RMQ = require('./rabbitMQ/rabbitMQ-receive');
 const exchangeName = 'rita';
-const routingKeys = ['predictions', 'belief-state-changes', 'testbed-message'];
+const exchangeNameRL = 'rita-v1';
+const routingKeys = ['observations.ui', 'predictions', 'belief-state-changes', 'testbed-message'];
 RMQ.startListening(exchangeName, routingKeys);
+// RMQ.startListening(exchangeNameRL, routingKeys);
 
 /* --- DATABASE CONNECTION CONFIG -- */
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
@@ -40,13 +42,12 @@ mongoose
 /*----- Start SERVER -----*/
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
+  console.log(`App running on port ${port} ...`);
 });
 
-/* Socket IO  Setup*/
+/*------ Socket IO  Setup -------*/
 const io = socketBackEnd(server);
-require('./socketIO/stateEstimation')(io);
-// require('./controllers/backend/viewsController').socketIOSE(io);
+require('./socketIO/socketIOInterface')(io);
 
 /*----- Handle unexpected errors -----*/
 process.on('unhandledRejection', (err) => {
