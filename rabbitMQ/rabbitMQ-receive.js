@@ -1,20 +1,14 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-shadow */
 /* eslint-disable import/no-extraneous-dependencies */
-
-const fs = require('fs');
-
 /* ----- IMPORT ------ */
 const amqp = require('amqplib/callback_api');
-const Event = require('events');
+const processMsg = require('./processMessage.js').processMsg;
 
 /* ----- Initialized variables ------ */
-process.env.CLOUDAMQP_URL = 'amqp://localhost';
-const amqpURL = 'amqp://obablkhe:vN3l2Lpj5sfUcstYJp1oQsHnR-I_0bHZ@toad.rmq.cloudamqp.com/obablkhe';
-const emit = new Event();
-
-/* ----- Incoming data stored in arrays ------ */
-const data = [];
-const predictions = [];
+process.env.CLOUDAMQP_URL = `amqp://localhost`;
+// process.env.CLOUDAMQP_URL = `amqp://${process.env.ADDRESS}`;
+// const amqpURL = 'amqp://obablkhe:vN3l2Lpj5sfUcstYJp1oQsHnR-I_0bHZ@toad.rmq.cloudamqp.com/obablkhe';
 
 /* ----- Supporting functions ------ */
 // Close the connection on errors
@@ -25,58 +19,15 @@ const closeOnErr = (err, connection) => {
   return true;
 };
 
-// Processes the message
-const processMsg = async (msg) => {
-  const receivedMsg = await JSON.parse(msg.content.toString());
-
-  // Receiving predictions
-  if (receivedMsg.predictions) {
-    if (
-      // Receiving predictions from state estimation (true and unknown)
-      receivedMsg['app-id'] === 'StateEstimation' ||
-      // Receiving predictions from prediction generator (false)
-      (receivedMsg['app-id'] === 'PredictionGenerator' && !receivedMsg.predictions.state)
-    ) {
-      setTimeout(function () {
-        emit.emit('newPrediction', receivedMsg);
-      }, 500);
-    }
-  }
-  // Receiving cognitive load from state estimation
-  else if (receivedMsg['belief-state-changes']) {
-    if (receivedMsg['belief-state-changes']['cognitive-load']) {
-      setTimeout(function () {
-        emit.emit('newCognitiveLoad', receivedMsg);
-      }, 500);
-    }
-  }
-
-  // Receiving fnirs data
-  else if (receivedMsg['routing-key'] === 'testbed-message') {
-    if (receivedMsg['testbed-message'].msg.sub_type === 'fNIRS') {
-      if (receivedMsg['testbed-message'].data !== undefined) {
-        setTimeout(function () {
-          emit.emit('newFNIRS', receivedMsg['testbed-message'].data);
-        }, 500);
-      }
-    }
-  }
-
-  // Might be useful in the future
-  // if (data.length > 200) {
-  //   const deleteItems = data.length - 200; // limits array to hold only 10 records
-  //   data.splice(0, deleteItems);
-  // }
-  // if (predictions.length > 200) {
-  //   const deleteItems = data.length - 200; // limits array to hold only 10 records
-  //   data.splice(0, deleteItems);
-  // }
-};
-
-// Opens a topic change and consumes incoming messages
+// Opens a topic exchange and consumes incoming messages
 const consumeMessages = async (channel, exchange, routingKeys, connection) => {
   // 1. Opens a topic exchange
-  channel.assertExchange(exchange, 'topic', { durable: false });
+  console.log(exchange);
+  if (exchange === 'rita') {
+    channel.assertExchange(exchange, 'topic', { durable: false, autoDelete: false });
+  } else {
+    channel.assertExchange(exchange, 'topic', { durable: false, autoDelete: true });
+  }
 
   // 2. Creates a temporary queue, which is automatically deleted when job done
   // queue is the respond consist of : { queue: 'randome-name', messageCount: 0, consumerCount: 0}
@@ -151,6 +102,3 @@ const start = async (exchange, routingKeys) => {
 
 /* -----  Exports ------ */
 module.exports.startListening = start;
-module.exports.dataArray = data;
-module.exports.predictionArray = predictions;
-module.exports.emit = emit;

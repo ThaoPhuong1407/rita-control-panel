@@ -19,8 +19,7 @@ exports.getAllComponents = catchAsync(async (req, res, next) => {
 });
 
 exports.getComponent = catchAsync(async (req, res, next) => {
-  // 1) Get tours
-  // Behind the scene, this is what it does: Tour.findOne({ _id: req.params.id })
+  // 1) Get compoenet
   const component = await RitaComponents.findById(req.params.id);
 
   // 2) Send response
