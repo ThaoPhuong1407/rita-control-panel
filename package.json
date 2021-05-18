@@ -29,7 +29,7 @@
     "pug": "^2.0.4",
     "shelljs": "^0.8.4",
     "slugify": "^1.4.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "validator": "^13.0.0",
     "watchify": "^3.11.1"
   },
