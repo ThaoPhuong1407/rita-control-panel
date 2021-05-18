@@ -139,31 +139,11 @@ block content
                                     .col-3
                                         p#green_patient 0 patient(s)   
 
-    div.section5
-        div.containerBox#stressLevel
+    div.section5.py-5
+        div.containerBox#emotions
             div.container5
-                //- for small screen (only show images)
-                //- div.row.d-xl-none.justify-content-center
-                    div.count
-                        //- Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
-                        div.imageContainer
-                            .row.d-flex.justify-content-center
-                                img(src="../img/cognitiveLoad.png")
-                                img(src="../img/roomsSkipped.png")
-                                img(src="../img/urgentPatient.png")
-                                img(src="../img/greenPatient.png")
-
-                            .row.imageCount
-                                .col-3
-                                    p#cognitive_load1 0 bit(s)
-                                .col-3
-                                    p#room_skipped1 0 room(s)
-                                .col-3
-                                    p#urgent_patient1 0 patient(s)
-                                .col-3
-                                    p#green_patient1 0 patient(s)  
                 div.row
-                    div.col-xl-4.d-none.d-xl-block
+                    .col-xl-4.d-none.d-xl-block
                         div.imageContainer5
                             svg#stress-icon-1
                                 use(xlink:href='../img/stress1.svg#icon-user')
@@ -178,7 +158,43 @@ block content
                         div.stressLevel
                             div#sl-graph
 
+        //- div.containerBox#stressLevel
+        //-     div.container5
+        //-         //- for small screen (only show images)
+        //-         div.row.d-xl-none.justify-content-center
+        //-             div.count
+        //-                 //- Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+        //-                 div.imageContainer
+        //-                     .row.d-flex.justify-content-center
+        //-                         img(src="../img/cognitiveLoad.png")
+        //-                         img(src="../img/roomsSkipped.png")
+        //-                         img(src="../img/urgentPatient.png")
+        //-                         img(src="../img/greenPatient.png")
 
+        //-                     .row.imageCount
+        //-                         .col-3
+        //-                             p#cognitive_load1 0 bit(s)
+        //-                         .col-3
+        //-                             p#room_skipped1 0 room(s)
+        //-                         .col-3
+        //-                             p#urgent_patient1 0 patient(s)
+        //-                         .col-3
+        //-                             p#green_patient1 0 patient(s)  
+        //-         div.row
+        //-             div.col-xl-4.d-none.d-xl-block
+        //-                 div.imageContainer5
+        //-                     svg#stress-icon-1
+        //-                         use(xlink:href='../img/stress1.svg#icon-user')
+
+        //-                     svg#stress-icon-2 
+        //-                         use(xlink:href='../img/stress2.svg#icon-user')
+
+        //-                     svg#stress-icon-3
+        //-                         use(xlink:href='../img/stress3.svg#icon-user')
+
+        //-             .col-xl-8.d-flex.justify-content-center
+        //-                 div.stressLevel
+        //-                     div#sl-graph
 
     script
         include ../controllers/frontend/stateEstimation.js

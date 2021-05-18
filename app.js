@@ -9,7 +9,6 @@ const compression = require('compression');
 
 // custom import
 const componentRouter = require('./routes/componentRoutes');
-const tomRouter = require('./routes/tomRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/backend/errorController');
@@ -33,7 +32,6 @@ app.use(compression()); // compress all texts sent to clients
 
 /* ------- ROUTES -------- */
 app.use('/ritaComponents', componentRouter); // API routes: displaying json data
-app.use('/tom', tomRouter); // API routes: displaying json data
 app.use('/', viewRouter); // Render views
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

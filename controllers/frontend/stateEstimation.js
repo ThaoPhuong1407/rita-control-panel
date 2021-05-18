@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable vars-on-top */
 /* eslint-disable no-var */
 /* eslint-disable no-undef */
@@ -12,16 +13,23 @@ const socketFrontEnd = io.connect('http://localhost:3000/state-estimation');
 // Initialize variables
 var elGraph = document.getElementById('el-graph');
 var predictionID = [];
-var correctPrediction = 0;
-var accuracy = 0;
-var totalRuns = 0;
 var percentTrue = 0;
 var percentFalse = 0;
+
+if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+  socketFrontEnd.emit('clearState', 'Please clear the current states');
+  predictionID = [];
+  percentTrue = 0;
+  percentFalse = 0;
+  console.info('This page is reloaded');
+} else {
+  console.info('This page is not reloaded');
+}
 
 // Initialize graph
 var dataEL = [
   {
-    y: [accuracy],
+    y: [0],
   },
 ];
 
@@ -83,50 +91,54 @@ Plotly.plot(elGraph, dataEL, layoutEL, configEL);
 
 // Update graph as data coming in
 socketFrontEnd.on('newPrediction', function (data) {
-  // 1. Add the data to predictionID arry to keep track of data
+  // If new prediction, append to the "monitor"
   if (!predictionID.includes(data.uid)) {
-    totalRuns += 1;
     predictionID.push(data.uid);
-    $('.prediction ul').prepend(`<li class="predictionWrapper"> ${data.uid}: ${data.prediction} </li>`);
+    console.log(data.uid, predictionID.length);
+    $('.prediction ul').prepend(`<li class="predictionWrapper"> ${data.prediction} - ${data.uid}</li>`);
   }
 
-  // 2. Status = true
-  if (data.state === true) {
-    // a) Calculation
-    correctPrediction += 1;
-    accuracy = correctPrediction / totalRuns;
-    percentTrue = accuracy.toFixed(2) * 100;
+  // Status = true
+  if (data.state === true || data.state === "true") {
+    percentTrue = data.accuracy.toFixed(2) * 100;
     percentFalse = 100 - percentTrue;
+    
+    // Section 2: change color and fadeout, then remove
+    if ($(`.prediction ul li:contains(${data.uid})`).length > 0) {
+      $(`.prediction ul li:contains(${data.uid})`).addClass('fadeOutTrue'); 
+      setTimeout(function () { // wait a bit before removing (animation)
+          $(`.prediction ul li:contains(${data.uid})`).remove(); 
+      }, 3000);
+    }  
 
-    // Update Correct UI
+    // Mini boxes (Section 3)
+    $('.true ul').prepend(`<li class="miniBoxID"> ${data.uid}`); 
     $(`.true h3`).text(`True: ${percentTrue}%`);
     $(`.false h3`).text(`False: ${percentFalse}%`);
-    $(`.prediction ul li:contains(${data.uid})`).addClass('fadeOutTest1'); // Section 2
-    $('.true ul').prepend(`<li class="miniBoxID"> ${data.uid}`); // Section 3
 
-    // Update Graph
-    Plotly.extendTraces(elGraph, { y: [[accuracy]] }, [0]);
+    // Update Graph (Section 3)
+    Plotly.extendTraces(elGraph, { y: [[data.accuracy]] }, [0]);
 
-    // 2. status = false
-  } else if (data.state === false) {
-    // Calcuation
-    accuracy = correctPrediction / totalRuns;
-    percentTrue = accuracy.toFixed(2) * 100;
-    percentFalse = 100 - percentTrue;
+    // Status = false
+  } else if (data.state === false || data.state === "false") {
+    // Section 2: change color and fadeout, then remove
+    if ($(`.prediction ul li:contains(${data.uid})`).length > 0) {
+      $(`.prediction ul li:contains(${data.uid})`).addClass('fadeOutFalse'); 
+      setTimeout(function () { // wait a bit before removing (animation)
+        $(`.prediction ul li:contains(${data.uid})`).remove();
+      }, 3000);
+    }  
 
-    // Update Correct UI
-    $(`.true h3`).text(`True: ${percentTrue}%`);
-    $(`.false h3`).text(`False: ${percentFalse}%`);
-    $(`.prediction ul li:contains(${data.uid})`).addClass('fadeOutTest2'); // Section 2
-    $('.false ul').prepend(`<li class="miniBoxID"> ${data.uid}`); // Section 3
+    // Section 3 (Mini boxes)
+    $('.false ul').prepend(`<li class="miniBoxID"> ${data.uid}`); 
 
-    // Update Graph
-    Plotly.extendTraces(elGraph, { y: [[accuracy]] }, [0]);
+     // Update Graph (Section 3)
+     Plotly.extendTraces(elGraph, { y: [[data.accuracy]] }, [0]);
   }
 });
 
 /* -------------------------------------------------------*/
-/* Efficient Level Graph (EL) && Memory Count Graph (MC) */
+/* Cognitive Load graph (CL) && Memory Count Graph (MC) */
 /* ------------------------------------------------------*/
 var clGraph = document.getElementById('cl-graph');
 var mcGraph = document.getElementById('mc-graph');
@@ -134,7 +146,6 @@ var mcGraph = document.getElementById('mc-graph');
 // Initialize graph: Cognitive Level Graph (CL)
 var dataCL = [
   {
-    x: [0],
     y: [0],
   },
 ];
@@ -261,6 +272,8 @@ var updatedValue;
 socketFrontEnd.on('newCognitiveLoad', function (data) {
   // CL graph
   Plotly.extendTraces(clGraph, { y: [[data.cognitiveLoad]] }, [0]);
+  console.log(data.cognitiveLoad);
+  console.log(data); 
 
   // MC graph
   setTimeout(function () {
@@ -281,89 +294,195 @@ socketFrontEnd.on('newCognitiveLoad', function (data) {
 /* -------------------------------------------------------*/
 /* Stress Level GRaph (SL) */
 /* ------------------------------------------------------*/
-var slGraph = document.getElementById('sl-graph');
+// var slGraph = document.getElementById('sl-graph');
 
-// Initialize graph: Cognitive Level Graph (CL)
-var dataSL = [
-  {
-    x: [0],
-    y: [0],
-  },
-];
+// Initialize graph: Stress Level Graph (CL)
+// var cardiac_signal = {
+//   x: [0],
+//   y: [0],
+//   mode: 'lines',
+//   name: 'cardiac_signal',
+//   line: {
+//     color: '#e36464',
+//     width: 0.9,
+//   },
+// };
 
-var layoutSL = {
-  hovermode: 'closest',
-  title: {
-    text: 'Cardiac Signal',
-    font: {
-      family: 'Courier New, monospace',
-      size: 30,
-      color: '#ffff',
-    },
-  },
-  xaxis: {
-    linecolor: '#228DFF',
-    color: '#ffe6ffd2',
-    title: {
-      text: 'Minutes',
-      font: {
-        family: 'monospace',
-        size: 18,
-        color: '#f9e3ff',
-      },
-      tickcolor: '#228DFF',
-    },
-    rangemode: 'nonnegative',
-    showspikes: true,
-    showgrid: false,
-  },
-  yaxis: {
-    linecolor: '#228DFF',
-    color: '#ffe6ffd2',
-    title: {
-      text: '',
-      font: {
-        family: 'monospace',
-        size: 18,
-        color: '#f9e3ff',
-      },
-    },
-    showspikes: true,
-    showgrid: false,
-  },
+// var oxygenated_blood_signal1 = {
+//   x: [0],
+//   y: [0],
+//   mode: 'lines',
+//   name: 'oxygenated_signal1',
+//   line: {
+//     color: '#5fad82',
+//     width: 0.9,
+//   },
+// };
 
-  paper_bgcolor: 'rgb(0,0,0,0)',
-  plot_bgcolor: 'rgb(0,0,0,0)',
-};
+// var oxygenated_blood_signal2 = {
+//   x: [0],
+//   y: [],
+//   mode: 'lines',
+//   name: 'oxygenated_signal2',
+// };
 
-var configSL = {
-  scrollZoom: true,
-  responsive: true,
-};
+// var deoxygenated_signal1 = {
+//   x: [0],
+//   y: [0],
+//   mode: 'lines',
+//   name: 'deoxygenated_signal1',
+//   line: {
+//     color: '#e0dd7b',
+//     width: 0.9,
+//   },
+// };
 
-Plotly.newPlot(slGraph, dataSL, layoutSL, configSL);
+// var deoxygenated_signal2 = {
+//   x: [0],
+//   y: [0],
+//   mode: 'lines',
+//   name: 'deoxygenated_signal2',
+// };
 
-socketFrontEnd.on('newFNIRS', function (data) {
-  setTimeout(function () {
-    var updatedData = {
-      x: [data.timeInMin],
-      y: [data.cardiacSignal],
-    };
+// var total_oxygenated_signal1 = {
+//   x: [0],
+//   y: [0],
+//   mode: 'lines',
+//   name: 'total_oxygenated_signal1',
+//   line: {
+//     color: 'rgba(99, 99, 191, 0.6)',
+//     width: 0.9,
+//   },
+// };
 
-    if (data.stressLevel === 1) {
-      $(`#stress-icon-1`).css('opacity', '0.9');
-      $(`#stress-icon-2`).css('opacity', '0.3');
-      $(`#stress-icon-3`).css('opacity', '0.3');
-    } else if (data.stressLevel === 2) {
-      $(`#stress-icon-1`).css('opacity', '0.3');
-      $(`#stress-icon-2`).css('opacity', '0.9');
-      $(`#stress-icon-3`).css('opacity', '0.3');
-    } else if (data.stressLevel === 3) {
-      $(`#stress-icon-1`).css('opacity', '0.3');
-      $(`#stress-icon-2`).css('opacity', '0.3');
-      $(`#stress-icon-3`).css('opacity', '0.9');
-    }
+// var total_oxygenated_signal2 = {
+//   x: [0],
+//   y: [0],
+//   mode: 'lines',
+//   name: 'total_oxygenated_signal2',
+// };
 
-    Plotly.update(slGraph, updatedData);
-  }, 300);
-});
+// var dataSL = [
+//   cardiac_signal,
+//   oxygenated_blood_signal1,
+//   // oxygenated_blood_signal2,
+//   deoxygenated_signal1,
+//   // deoxygenated_signal2,
+//   total_oxygenated_signal1,
+//   // total_oxygenated_signal2,
+// ];
+
+// var layoutSL = {
+//   hovermode: 'closest',
+//   title: {
+//     text: 'fNIRs',
+//     font: {
+//       family: 'Courier New, monospace',
+//       size: 30,
+//       color: '#ffff',
+//     },
+//   },
+//   xaxis: {
+//     linecolor: '#228DFF',
+//     color: '#ffe6ffd2',
+
+//     spikemode: 'across',
+//     showspikes: true,
+//     spikedash: 'solid',
+//     spikethickness: 0.5,
+
+//     showgrid: false,
+//     range: [0, 10],
+//     title: {
+//       text: 'Minutes',
+//       font: {
+//         family: 'monospace',
+//         size: 18,
+//         color: '#f9e3ff',
+//       },
+//       tickcolor: '#228DFF',
+//     },
+//     rangemode: 'nonnegative',
+//   },
+
+//   yaxis: {
+//     autorange: true,
+//     linecolor: '#228DFF',
+//     color: '#ffe6ffd2',
+//     title: {
+//       text: '',
+//       font: {
+//         family: 'monospace',
+//         size: 18,
+//         color: '#f9e3ff',
+//       },
+//     },
+//     showspikes: true,
+//     spikethickness: 0.5,
+//     showgrid: false,
+//   },
+
+//   shapes: [
+//     //line vertical
+//     {
+//       type: 'line',
+//       x0: 0,
+//       y0: 4,
+//       x1: 0,
+//       y1: -8,
+//       line: {
+//         color: 'rgba(27, 110, 218, 0.64)',
+//         width: 0.8,
+//       },
+//     },
+//   ],
+
+//   paper_bgcolor: 'rgb(0,0,0,0)',
+//   plot_bgcolor: 'rgb(0,0,0,0)',
+// };
+
+// var configSL = {
+//   scrollZoom: true,
+//   responsive: true,
+// };
+
+// Plotly.newPlot(slGraph, dataSL, layoutSL, configSL);
+
+// socketFrontEnd.on('newFNIRS', function (data) {
+//   setTimeout(function () {
+//     var updatedData = {
+//       x: [data.timeInMin],
+//       y: [
+//         data.cardiac_signal,
+//         data.oxygenated_blood_signal1,
+//         // data.oxygenated_blood_signal2,
+//         data.deoxygenated_signal1,
+//         // data.deoxygenated_signal2,
+//         data.total_oxygenated_signal1,
+//         // data.total_oxygenated_signal2,
+//       ],
+//     };
+
+//     var updateLayout = {
+//       'shapes[0].x0': data.currentTime,
+//       'shapes[0].x1': data.currentTime,
+//     };
+
+//     if (data.stressLevel === 1) {
+//       $(`#stress-icon-1`).css('opacity', '0.9');
+//       $(`#stress-icon-2`).css('opacity', '0.3');
+//       $(`#stress-icon-3`).css('opacity', '0.3');
+//     } else if (data.stressLevel === 2) {
+//       $(`#stress-icon-1`).css('opacity', '0.3');
+//       $(`#stress-icon-2`).css('opacity', '0.9');
+//       $(`#stress-icon-3`).css('opacity', '0.3');
+//     } else if (data.stressLevel === 3) {
+//       $(`#stress-icon-1`).css('opacity', '0.3');
+//       $(`#stress-icon-2`).css('opacity', '0.3');
+//       $(`#stress-icon-3`).css('opacity', '0.9');
+//     }
+
+//     Plotly.update(slGraph, updatedData);
+//     Plotly.relayout(slGraph, updateLayout);
+//   }, 300);
+// });

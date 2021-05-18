@@ -15,10 +15,27 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getPrediction = catchAsync(async (req, res, next) => {
-  // 2)  Render the template 'stateEstimation' and pass data to it
+exports.getStateEstimation = catchAsync(async (req, res, next) => {
+  // Render the template 'stateEstimation'
   res.status(200).render('stateEstimation', {
     title: 'State Estimation',
     allPredictions: RMQ.predictionArray,
   });
 });
+
+exports.getMap = catchAsync(async (req, res, next) => {
+  // Render the template 'tom'
+  res.status(200).render('map', {
+    title: '2D Map',
+  });
+});
+
+
+exports.getStackedGraphs = catchAsync(async (req, res, next) => {
+  // Render the template 'graphOnly'
+  res.status(200).render('stackedGraphs', {
+    title: 'Stacked Graphs',
+  });
+});
+
+
